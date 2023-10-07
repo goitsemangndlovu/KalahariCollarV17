@@ -1,0 +1,82 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    font-family: Roboto,sans-serif;
+}
+
+/*tab navigation*/
+.login-logout-card .card-header {
+    padding: 0px 0px 12px 0px;
+}
+
+.login-logout-card ul.nav-tabs {
+    margin: 0px 0px -12px 0px;
+}
+
+.login-logout-card li.nav-item {
+    width: 50%;
+}
+
+.login-logout-card a.nav-link {
+    font-size: 20px;
+    color: #495057;
+    text-align: center;
+    padding: 1rem;
+}
+
+.login-logout-card .card-body {
+    padding: 10px 20px;
+}
+
+.navbar {
+    height: 80px;
+    padding: 10px; /* Adjust padding as needed */
+    background-color: #a4bccb !important;
+}
+
+.custom-background {
+    background-image: url('../Images/Kalahari Deser Image.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Apply the semi-transparent and blurred background to the card */
+.semi-transparent-card {
+    background: rgba(164, 188, 203, 0.7); /* Semi-transparent white background */
+    backdrop-filter: blur(1px); /* Apply a 5px blur effect to the background */
+}
+
+.semi-transparent-card2 {
+    background: rgba(247, 167, 70, 0.3); /* Semi-transparent white background */
+    backdrop-filter: blur(1px); /* Apply a 5px blur effect to the background */
+    border-radius: 8px;
+}
+
+.semi-transparent-card3 {
+    background: rgba(54, 27, 9, 0.7); /* Semi-transparent white background */
+    backdrop-filter: blur(1px); /* Apply a 5px blur effect to the background */
+}
+
+.exclude-semi-transparent-card2 .semi-transparent-card2 {
+    background: none;
+    backdrop-filter: none;
+    border-radius: 0;
+}

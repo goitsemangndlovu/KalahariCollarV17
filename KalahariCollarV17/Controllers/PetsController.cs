@@ -35,7 +35,8 @@ namespace KalahariCollarV17.Controllers
         // GET: Pets
         public async Task<IActionResult> Index()
         {
-            var petsFromDatabase = _context.Pets.ToList();
+            Console.WriteLine(_context.Database.GetConnectionString());
+            var petsFromDatabase = _context.Pets.Where(p => p.OwnerId.Equals(_userManager.GetUserId(User))).ToList();
 
             // Map the data to the view model
             var petViewModels = petsFromDatabase.Select(p => new Pet
@@ -66,7 +67,7 @@ namespace KalahariCollarV17.Controllers
             }
 
             var pet = await _context.Pets
-                //.Include(p => p.Owner)
+                //.Include(p => p.OwnerId)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
@@ -155,6 +156,46 @@ namespace KalahariCollarV17.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TrackerID,Name,Age,Type,Breed,Location")] Pet pet)
         {
+            if (pet.Age > 0)
+            {
+                if (pet.TrackerID > 100000000000000 && pet.TrackerID < 999999999999999)
+                {
+                    Console.WriteLine(pet.Name);
+                    if (!pet.Name.Equals("") && !pet.Type.Equals("") && !pet.Breed.Equals("") && !pet.Location.Equals("") && !pet.TrackerID.Equals("") && !pet.Age.Equals(""))
+                    {
+                        pet.OwnerId = _userManager.GetUserId(User); 
+                        Console.WriteLine(pet.OwnerId);
+                        _context.Update(pet);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+
+
+                    else
+                    {
+                        // Log ModelState errors
+                        foreach (var modelState in ModelState.Values)
+                        {
+                            foreach (var error in modelState.Errors)
+                            {
+                                Console.WriteLine(error.ErrorMessage);
+                            }
+                        }
+                    }
+                    ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
+                }
+                else
+                {
+                    ModelState.AddModelError("TrackerID", "Tracker ID is the tracking device's IMEI number and should be 15 digits long, never starting with 0");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Age", "Age Cannot be Less than 0");
+            }
+            return View(pet);
+
+           /* Console.WriteLine(pet.Name);
             if (id != pet.Id)
             {
                 return NotFound();
@@ -182,6 +223,7 @@ namespace KalahariCollarV17.Controllers
             }
         //    ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
             return View(pet);
+           */
         }
 
         // GET: Pets/Delete/5

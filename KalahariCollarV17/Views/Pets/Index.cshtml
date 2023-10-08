@@ -5,11 +5,49 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<head>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/KalahariCollar.styles.css" asp-append-version="true" />
+</head>
+<h1>Pets</h1>
 
+<body class="mainbody">
 <p>
-    <a asp-action="Create">Create New</a>
+    <a class="btn btn-primary" asp-action="Create">Add New Pet</a>
 </p>
+<div class="card-columns">
+@foreach (var item in Model)
+{
+    <div class="card">
+        <div class="row">
+            <h1>@item.Name</h1>
+            <div class="buttons-col">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                            <a class="btn btn-primary" asp-controller="Pets" asp-action="Details" asp-route-id="@item.Id">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="btn btn-primary" asp-controller="Pets" asp-action="Edit" asp-route-id="@item.Id">Edit </a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="btn btn-primary" asp-controller="Pets" asp-action="Location" asp-route-id="@item.Id">Track</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="btn btn-primary" asp-controller="Pets" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="track-col">
+            </div>
+        </div>
+    </div>
+}
+
+    </div>
+</body>
+
+@*
 <table class="table">
     <thead>
         <tr>
@@ -70,3 +108,4 @@
 }
     </tbody>
 </table>
+*@

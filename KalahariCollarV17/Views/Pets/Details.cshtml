@@ -4,9 +4,13 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Details</h1>
-
+<head>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/KalahariCollar.styles.css" asp-append-version="true" />
+</head>
+<h1>Pet Profile</h1>
+<body class="mainbody">
 <div>
     <h4>Pet</h4>
     <hr />
@@ -50,12 +54,16 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Owner)
         </dt>
+        @*
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Owner.Id)
+        @Html.DisplayFor(model => model.Owner.Id)
         </dd>
+        *@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a  class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
 </div>
+
+    </body>

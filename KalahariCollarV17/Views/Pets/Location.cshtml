@@ -1,0 +1,102 @@
+﻿@model KalahariCollarV17.Models.Pet
+
+@{
+    ViewData["Title"] = "Location";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/KalahariCollar.styles.css" asp-append-version="true" />
+  <title>Google Maps Example</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCERnEroIlqCPoAep7baOEjacpPAVitU0I"></script>
+  <style>
+    #map {
+      height: 600px; /* Adjust the height to make the map longer */
+    }
+  </style>
+</head>
+<body class="mainbody">
+  <div id="map" style="height: 600px;"></div>
+    <a class ="btn btn-primary" id="start-tracking">Start Tracking </a>
+    <a class="btn btn-primary" id="stop-tracking">Stop Tracking</a>
+  <script>
+        let poly;
+            let map;
+        let watchId; // To store the ID of the geolocation watch
+
+      function initMap() {
+          map = new google.maps.Map(document.getElementById("map"), {
+              center: { lat: -22.559722, lng: 17.083611 }, // Centered on Namibia
+              zoom: 6,
+          });
+          const triangleCoords = [
+              { lat: -22.3839, lng: 20.1137 },
+              { lat: -24.0717, lng: 17.5831 },
+              { lat: -24.2889, lng: 15.2605 },
+              { lat: -24.8598, lng: 18.8046 },
+          ];
+
+          // Construct the polygon.
+          const bermudaTriangle = new google.maps.Polygon({
+              paths: triangleCoords,
+              strokeColor: "#FF0000",
+              strokeOpacity: 0.8,
+              strokeWeight: 2,
+              fillColor: "#FF0000",
+              fillOpacity: 0.35,
+                triangleCoords: triangleCoords,
+                editable: true
+
+          });
+
+          bermudaTriangle.setMap(map);
+
+           
+      }
+
+        // Handles click events on a map, and adds a new point to the Polyline.
+        
+
+        function startTracking() {
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(
+                    (position) => {
+                        const pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        };
+                        map.setCenter(pos);
+                        new google.maps.Marker({
+                            position: pos,
+                            map: map,
+                            title: "Your Location",
+                        });
+                    },
+                    () => {
+                        alert("Error: The Geolocation service failed.");
+                    }
+                );
+            } else {
+                alert("Error: Your browser doesn't support geolocation.");
+            }
+        }
+
+        function stopTracking() {
+            if (navigator.geolocation && watchId) {
+                navigator.geolocation.clearWatch(watchId);
+            }
+        }
+
+        document.getElementById("start-tracking").addEventListener("click", startTracking);
+        document.getElementById("stop-tracking").addEventListener("click", stopTracking);
+
+        initMap();
+    
+  </script>
+</body>
+</html>

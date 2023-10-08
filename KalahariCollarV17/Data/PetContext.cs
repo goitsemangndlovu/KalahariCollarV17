@@ -14,6 +14,10 @@ namespace KalahariCollarV17.Data
         {
         }
 
-        public DbSet<KalahariCollarV17.Models.Pet> Pet { get; set; } = default!;
+        public DbSet<KalahariCollarV17.Models.Pet> Pets { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Pet>().ToTable("Pet");
+        }
     }
 }

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Hosting.Builder;
 
 namespace KalahariCollarV17.Controllers
 {
+    [Authorize]
     public class PetsController : Controller
     {
         private readonly PetContext _context;
@@ -34,7 +35,7 @@ namespace KalahariCollarV17.Controllers
         // GET: Pets
         public async Task<IActionResult> Index()
         {
-            var petsFromDatabase = _context.Pet.ToList();
+            var petsFromDatabase = _context.Pets.ToList();
 
             // Map the data to the view model
             var petViewModels = petsFromDatabase.Select(p => new Pet
@@ -59,13 +60,13 @@ namespace KalahariCollarV17.Controllers
         // GET: Pets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Pet == null)
+            if (id == null || _context.Pets == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pet
-                .Include(p => p.Owner)
+            var pet = await _context.Pets
+                //.Include(p => p.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
@@ -119,17 +120,17 @@ namespace KalahariCollarV17.Controllers
         // GET: Pets/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Pet == null)
+            if (id == null || _context.Pets == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pet.FindAsync(id);
+            var pet = await _context.Pets.FindAsync(id);
             if (pet == null)
             {
                 return NotFound();
             }
-            ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
+          //  ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
             return View(pet);
         }
 
@@ -165,20 +166,20 @@ namespace KalahariCollarV17.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
+        //    ViewData["OwnerId"] = new SelectList(_context.Set<ApplicationUser>(), "Id", "Id", pet.OwnerId);
             return View(pet);
         }
 
         // GET: Pets/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Pet == null)
+            if (id == null || _context.Pets == null)
             {
                 return NotFound();
             }
 
-            var pet = await _context.Pet
-                .Include(p => p.Owner)
+            var pet = await _context.Pets
+               // .Include(p => p.Owner)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pet == null)
             {
@@ -193,14 +194,14 @@ namespace KalahariCollarV17.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Pet == null)
+            if (_context.Pets == null)
             {
                 return Problem("Entity set 'PetContext.Pet'  is null.");
             }
-            var pet = await _context.Pet.FindAsync(id);
+            var pet = await _context.Pets.FindAsync(id);
             if (pet != null)
             {
-                _context.Pet.Remove(pet);
+                _context.Pets.Remove(pet);
             }
 
             await _context.SaveChangesAsync();
@@ -209,7 +210,13 @@ namespace KalahariCollarV17.Controllers
 
         private bool PetExists(int id)
         {
-            return (_context.Pet?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Pets?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+
+        public async Task<IActionResult> Location()
+        {
+            return View();
         }
     }
 }

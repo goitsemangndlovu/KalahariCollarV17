@@ -4,6 +4,7 @@ using KalahariCollarV17.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KalahariCollarV17.Migrations.Pet
 {
     [DbContext(typeof(PetContext))]
-    partial class PetContextModelSnapshot : ModelSnapshot
+    [Migration("20231008060009_UpdateOwner")]
+    partial class UpdateOwner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,7 +122,7 @@ namespace KalahariCollarV17.Migrations.Pet
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Pets", (string)null);
+                    b.ToTable("Pet");
                 });
 
             modelBuilder.Entity("KalahariCollarV17.Models.Pet", b =>

@@ -1,4 +1,5 @@
 ﻿using KalahariCollarV17.Areas.Identity.Data;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace KalahariCollarV17.Models
 {
@@ -10,7 +11,7 @@ namespace KalahariCollarV17.Models
     {
         public int Id { get; set; }
 
-        public int TrackerID {  get; set; }
+        public Int64 TrackerID {  get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public Type? Type { get; set; } // Add the type property (e.g., "cat" or "dog")

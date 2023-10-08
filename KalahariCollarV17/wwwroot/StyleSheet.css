@@ -2,6 +2,9 @@
     background-color: #ebe9e2;
     font-family: Roboto,sans-serif
 }
+.dogicon {
+    border-radius: 75px;
+}
 
 
 .checked {
@@ -83,6 +86,11 @@ for details on configuring this project to bundle and minify static web assets. 
     flex-direction: column !important;
 }
 
+.flex-row {
+    flex-direction: row !important;
+    display: block;
+    
+}
 .ul {
     margin-top: 0;
     margin-block-start: 1em;

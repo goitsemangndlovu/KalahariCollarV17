@@ -53,9 +53,14 @@ body {
 }
 
 .custom-background {
-    background-image: url('../Images/Kalahari Deser Image.png');
+    background-image: url('../Images/Dunes.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    
+}
+
+.background-image {
+    
 }
 
 /* Apply the semi-transparent and blurred background to the card */

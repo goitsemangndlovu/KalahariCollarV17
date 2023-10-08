@@ -139,7 +139,7 @@ namespace KalahariCollarV17.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TrackerID,Name,Age,Type,Breed,OwnerId,Location")] Pet pet)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TrackerID,Name,Age,Type,Breed,Location")] Pet pet)
         {
             if (id != pet.Id)
             {

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<KalahariCollarV17.Models.Pet>
+﻿@model PagedList.IPagedList<KalahariCollarV17.Models.Pet>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Index";
@@ -16,9 +18,13 @@
 <p>
     <a class="btn btn-primary" asp-action="Create">Add New Pet</a>
 </p>
+
+    
+    
 <div class="card-columns">
 @foreach (var item in Model)
 {
+           
     <div class="card">
         <div class="row">
             <h1>@item.Name</h1>
@@ -43,7 +49,7 @@
         </div>
     </div>
 }
-
+      
     </div>
 </body>
 

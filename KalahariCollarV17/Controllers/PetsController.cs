@@ -10,9 +10,11 @@ using KalahariCollarV17.Data;
 using KalahariCollarV17.Models;
 using KalahariCollarV17.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authorization;
+using PagedList;
 using System.Security.Claims;
 using System.Drawing;
 using Microsoft.AspNetCore.Hosting.Builder;
+using Microsoft.Data.SqlClient;
 
 namespace KalahariCollarV17.Controllers
 {
@@ -33,8 +35,27 @@ namespace KalahariCollarV17.Controllers
         }
 
         // GET: Pets
-        public async Task<IActionResult> Index()
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            var pets = from p in _context.Pets
+                       select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pets = pets.Where(p => p.Name.Contains(searchString));
+            }
             Console.WriteLine(_context.Database.GetConnectionString());
             var petsFromDatabase = _context.Pets.Where(p => p.OwnerId.Equals(_userManager.GetUserId(User))).ToList();
 
@@ -51,10 +72,22 @@ namespace KalahariCollarV17.Controllers
                 // Map other properties
             }).ToList();
 
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    pets = pets.OrderByDescending(p => p.Name);
+                    break;
+                default:
+                    pets = pets.OrderBy(p => p.Name);
+                    break;
+            }
             // var petContext = _context.Pet.Include(p => p.Owner);
             //  return View(await petContext.ToListAsync());
             // Pass the view model collection to the view
-            return View(petViewModels);
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(petViewModels.ToPagedList(pageNumber, pageSize));
 
         }
 
